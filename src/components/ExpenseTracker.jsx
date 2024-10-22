@@ -1,98 +1,98 @@
-import React from 'react'
+import React from 'react';
 
 export default function ExpenseTracker({
-    setAmount,
-    setType,
-    handleTransactions,
-    transactions,
-    type,
-    amount
+  setAmount,
+  setType,
+  handleTransactions,
+  transactions,
+  type,
+  amount,
 }) {
+  const totalAmount = transactions.reduce(
+    (acc, transactions) =>
+      transactions.type === 'income' ? acc + Number(transactions.amount) : acc,
+    0
+  );
+  const totalExpense = transactions.reduce(
+    (acc, transactions) =>
+      transactions.type === 'expense' ? acc + Number(transactions.amount) : acc,
+    0
+  );
 
+  const balance = totalAmount - totalExpense;
 
-    const totalAmount = transactions.reduce(
-        (acc, transactions) =>
-          transactions.type == "income" ? acc + Number(transactions.amount) : acc,
-        0
-      );
-      const totalExpense = transactions.reduce(
-        (acc, transactions) =>
-          transactions.type == "expense" ? acc + Number(transactions.amount) : acc,
-        0
-      );
-    
-      const balance = totalAmount - totalExpense;
-    
-      console.log(totalAmount);
   return (
-    <div className="max-w-[800px] m-auto mt-2 bg-black border-b-gray-600 p-6 rounded-sm text-center">
-        <h1 className="text-white font-bold">Finance App (Code aur Wajid)</h1>
+    <div className="max-w-[800px] mx-auto mt-4 bg-gray-900 p-8 rounded-lg shadow-lg text-center">
+      <h1 className="text-white font-bold text-2xl mb-4">
+        Finance App (Code aur Wajid)
+      </h1>
 
-       <div className="flex justify-center align-middle p-2  gap-2 rounded-md">
-          <input
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-            placeholder="Add Amount"
-            className="rounded-xl text-center"
-          />
-          <select
-            className="rounded-xl"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-          >
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-          </select>
+      {/* Input Section */}
+      <div className="flex flex-col sm:flex-row justify-center items-center gap-4 p-4 bg-gray-800 rounded-lg">
+        <input
+          type="number"
+          value={amount}
+          onChange={(e) => setAmount(e.target.value)}
+          placeholder="Add Amount"
+          className="w-full sm:w-1/3 p-2 rounded-lg text-center bg-gray-700 text-white focus:outline-none"
+        />
+        <select
+          className="w-full sm:w-1/4 p-2 rounded-lg bg-gray-700 text-white focus:outline-none"
+          value={type}
+          onChange={(e) => setType(e.target.value)}
+        >
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+        <button
+          className="w-full sm:w-1/5 bg-green-600 p-2 rounded-lg text-white hover:bg-green-700 transition-colors duration-200"
+          onClick={handleTransactions}
+        >
+          Submit
+        </button>
+      </div>
 
-          <button
-            className="bg-green-600 p-2 rounded-lg cursor-pointer"
-            onClick={handleTransactions}
-          >
-            Submit
-          </button>
-        </div>  
-        <div className="flex justify-center gap-3 bg-slate-400 p-3">
-          <div className="flex justify-center rounded-lg gap-4 ">
-            <div className="bg-blue-600 p-2 text-green-950 rounded-md font-extrabold underline">
-         
-              <h3>Inome:{totalAmount}</h3> 
-            </div>
-            <div className="bg-blue-800 p-2 rounded-md text-yellow-400font-extrabold underline">
-            
-              <h3>Expense:{totalExpense}</h3>
-            </div>
-            <div className={`"bg-blue-400 p-2 text-cyan-100 rounded-md font-extrabold underline" ${balance >0 ? 'bg-green-500 p-3' : 'bg-red-600'}`}>
-            
-              <h3>Balance:{balance}</h3>
-            </div>
-          </div>
+      {/* Display Totals */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 bg-gray-700 p-4 rounded-lg text-white">
+        <div className="bg-blue-600 p-4 rounded-md">
+          <h3 className="font-bold">Income</h3>
+          <p className="text-xl font-extrabold">${totalAmount}</p>
         </div>
+        <div className="bg-blue-800 p-4 rounded-md">
+          <h3 className="font-bold">Expense</h3>
+          <p className="text-xl font-extrabold">${totalExpense}</p>
+        </div>
+        <div
+          className={`p-4 rounded-md font-extrabold ${
+            balance > 0 ? 'bg-green-600' : 'bg-red-600'
+          }`}
+        >
+          <h3 className="font-bold">Balance</h3>
+          <p className="text-xl">${balance}</p>
+        </div>
+      </div>
 
+      {/* Transaction List */}
+      <div className="mt-6 space-y-4">
         {transactions.map((data, i) => {
           return (
             <div
               key={i}
-              className="flex justify-center gap-4 mt-2 bg-orange-400 max-w-[400px] m-auto"
+              className="flex justify-between p-4 bg-orange-400 rounded-md shadow-md text-white"
             >
-            
-              <h1 className="text-cyan-50 mr-2">
-             
-                {i + 1}
-                {")"}
-                {data.amount}
-              </h1>
-              <h1
-                className={`${
-                  data.type === "income" ? "text-yellow-200" : "text-red-700"
+              <span className="font-bold">{i + 1}.</span>
+              <span className="text-lg font-bold">{data.amount}</span>
+              <span
+                className={`font-bold ${
+                  data.type === 'income' ? 'text-green-400' : 'text-red-700'
                 }`}
               >
-             
                 {data.type}
-              </h1>
+              </span>
             </div>
           );
         })}
-      </div> 
-  )
+      </div>
+    </div>
+  );
 }
