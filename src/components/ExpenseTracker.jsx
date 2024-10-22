@@ -23,8 +23,8 @@ export default function ExpenseTracker({
 
   return (
     <div className="max-w-[800px] mx-auto mt-4 bg-gray-900 p-8 rounded-lg shadow-lg text-center">
-      <h1 className="text-white font-bold text-2xl mb-4">
-        Finance App (Code aur Wajid)
+      <h1 className="text-white font-bold text-3xl mb-4">
+        Finance App 
       </h1>
 
       {/* Input Section */}
