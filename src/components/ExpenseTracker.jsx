@@ -84,7 +84,7 @@ export default function ExpenseTracker({
               <span className="text-lg font-bold">{data.amount}</span>
               <span
                 className={`font-bold ${
-                  data.type === 'income' ? 'text-green-400' : 'text-red-700'
+                  data.type === 'income' ? 'text-white' : 'text-red-700'
                 }`}
               >
                 {data.type}
